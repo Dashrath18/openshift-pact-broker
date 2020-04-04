@@ -1,24 +1,24 @@
 apiVersion: v1
 kind: Template
 metadata:
-  name: pact-broker
+  name: pact-broker-abc
 objects:
   - apiVersion: v1
     kind: ImageStream
     metadata:
       labels:
-        app: pact-broker
-      name: pact-broker
+        app: pact-broker-abc
+      name: pact-broker-abc
   - apiVersion: v1
     kind: DeploymentConfig
     metadata:
       labels:
-        app: pact-broker
-      name: pact-broker
+        app: pact-broker-abc
+      name: pact-broker-abc
     spec:
       replicas: 1
       selector:
-        app: pact-broker
+        app: pact-broker-abc
       strategy:
         activeDeadlineSeconds: 21600
         rollingParams:
@@ -31,8 +31,8 @@ objects:
       template:
         metadata:
           labels:
-            app: pact-broker
-            deploymentconfig: pact-broker
+            app: pact-broker-abc
+            deploymentconfig: pact-broker-abc
         spec:
           containers:
             - name: pact-broker
@@ -43,34 +43,34 @@ objects:
                   valueFrom:
                     secretKeyRef:
                       key: username
-                      name: pact-broker-secrets
+                      name: pact-broker-abc-secrets
                 - name: PACT_BROKER_DATABASE_PASSWORD
                   valueFrom:
                     secretKeyRef:
                       key: password
-                      name: pact-broker-secrets
+                      name: pact-broker-abc-secrets
                 - name: PACT_BROKER_BASIC_AUTH_USERNAME
                   valueFrom:
                     secretKeyRef:
                       key: pact_broker_admin
-                      name: pact-broker-secrets
+                      name: pact-broker-abc-secrets
                 - name: PACT_BROKER_BASIC_AUTH_PASSWORD
                   valueFrom:
                     secretKeyRef:
                       key: pact_broker_admin_password
-                      name: pact-broker-secrets
+                      name: pact-broker-abc-secrets
                 - name: PACT_BROKER_BASIC_AUTH_READ_ONLY_USERNAME
                   valueFrom:
                     secretKeyRef:
                       key: pact_broker_user
-                      name: pact-broker-secrets
+                      name: pact-broker-abc-secrets
                 - name: PACT_BROKER_BASIC_AUTH_READ_ONLY_PASSWORD
                   valueFrom:
                     secretKeyRef:
                       key: pact_broker_user_password
-                      name: pact-broker-secrets
+                      name: pact-broker-abc-secrets
                 - name: PACT_BROKER_DATABASE_HOST
-                  value: postgresql-pact-broker
+                  value: postgresql-pact-broker-abc
                 - name: PACT_BROKER_DATABASE_NAME
                   value: pact_broker
               livenessProbe:
@@ -102,8 +102,8 @@ objects:
     kind: Service
     metadata:
       labels:
-        app: pact-broker
-      name: pact-broker
+        app: pact-broker-abc
+      name: pact-broker-abc
     spec:
       ports:
         - name: 9292-tcp
@@ -111,29 +111,29 @@ objects:
           protocol: TCP
           targetPort: 9292
       selector:
-        app: pact-broker
+        app: pact-broker-abc
       sessionAffinity: None
       type: ClusterIP
   - apiVersion: v1
     kind: Route
     metadata:
       labels:
-        app: pact-broker
-      name: pact-broker
+        app: pact-broker-abc
+      name: pact-broker-abc
     spec:
       port:
         targetPort: 9292-tcp
       to:
         kind: Service
-        name: pact-broker
+        name: pact-broker-abc
         weight: 100
       wildcardPolicy: None
   - apiVersion: v1
     kind: Service
     metadata:
-      name: postgresql-pact-broker
+      name: postgresql-pact-broker-abc
       labels:
-        app: pact-broker
+        app: pact-broker-abc
     spec:
       ports:
         - name: postgresql
@@ -141,22 +141,22 @@ objects:
           protocol: TCP
           targetPort: 5432
       selector:
-        app: pact-broker
-        deploymentconfig: postgresql-pact-broker
+        app: pact-broker-abc
+        deploymentconfig: postgresql-pact-broker-abc
       sessionAffinity: None
       type: ClusterIP
   - apiVersion: v1
     kind: DeploymentConfig
     metadata:
       labels:
-        app: pact-broker
-        deploymentconfig: postgresql-pact-broker
-      name: postgresql-pact-broker
+        app: pact-broker-abc
+        deploymentconfig: postgresql-pact-broker-abc
+      name: postgresql-pact-broker-abc
     spec:
       replicas: 1
       selector:
-        app: pact-broker
-        deploymentconfig: postgresql-pact-broker
+        app: pact-broker-abc
+        deploymentconfig: postgresql-pact-broker-abc
       strategy:
         recreateParams:
           timeoutSeconds: 600
@@ -165,8 +165,8 @@ objects:
       template:
         metadata:
           labels:
-            app: pact-broker
-            deploymentconfig: postgresql-pact-broker
+            app: pact-broker-abc
+            deploymentconfig: postgresql-pact-broker-abc
         spec:
           containers:
             - name: postgresql
@@ -175,12 +175,12 @@ objects:
                   valueFrom:
                     secretKeyRef:
                       key: username
-                      name: pact-broker-secrets
+                      name: pact-broker-abc-secrets
                 - name: POSTGRESQL_PASSWORD
                   valueFrom:
                     secretKeyRef:
                       key: password
-                      name: pact-broker-secrets
+                      name: pact-broker-abc-secrets
                 - name: POSTGRESQL_DATABASE
                   value: pact_broker
               imagePullPolicy: Always
@@ -237,7 +237,7 @@ objects:
     metadata:
       labels:
         app: pact-broker
-        deploymentconfig: postgresql-pact-broker
+        deploymentconfig: postgresql-pact-broker-abc
       name: postgresql-pact-broker-data
     spec:
       accessModes:
@@ -248,9 +248,9 @@ objects:
   - apiVersion: v1
     kind: Secret
     metadata:
-      name: pact-broker-secrets
+      name: pact-broker-abc-secrets
       labels:
-        app: pact-broker
+        app: pact-broker-abc
         credential.sync.jenkins.openshift.io: "true"
     stringData:
       password: ${POSTGRESQL_PASSWORD}
