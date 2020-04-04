@@ -35,7 +35,7 @@ objects:
             deploymentconfig: pact-broker-abc
         spec:
           containers:
-            - name: pact-broker
+            - name: pact-broker-abc
               image: "dius/pact-broker:latest"  
               imagePullPolicy: Always
               env:
