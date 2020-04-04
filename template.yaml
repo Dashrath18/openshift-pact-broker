@@ -236,7 +236,7 @@ objects:
     kind: PersistentVolumeClaim
     metadata:
       labels:
-        app: pact-broker
+        app: pact-broker-abc
         deploymentconfig: postgresql-pact-broker-abc
       name: postgresql-pact-broker-data
     spec:
