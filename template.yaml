@@ -36,7 +36,7 @@ objects:
         spec:
           containers:
             - name: pact-broker
-              image: "pactfoundation/pact-broker:latest"  
+              image: "dius/pact-broker:latest"  
               imagePullPolicy: Always
               env:
                 - name: PACT_BROKER_DATABASE_USERNAME
