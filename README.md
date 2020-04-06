@@ -4,8 +4,8 @@ This repository contains the pact broker template for openshift and Kubernetes(P
 1. Create pact-broker project/namespace.
 2. Apply the persistent volume to pact-broker project.
   
-  ```oc apply -f pv.yaml -n pact-broker```
+    ```oc apply -f pv.yaml -n pact-broker```
   
 3. Now apply the template to pact-broker project/namespace.
 
-```oc apply -f template.yaml -n pact-broker```
+    ```oc apply -f template.yaml -n pact-broker```
