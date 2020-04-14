@@ -299,7 +299,7 @@ parameters:
     description: Username for the read only user 
     displayName: Username for the read only user
     required: true
-    value: dev
+    value: Developer
   - description: Data volume size for the PostgreSQL.
     displayName: PostgreSQL Data Volume Size (Gi)
     name: POSTGRESQL_PERSISTENT_VOLUME_CLAIM_SIZE
